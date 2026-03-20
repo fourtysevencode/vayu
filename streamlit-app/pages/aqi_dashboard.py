@@ -13,12 +13,13 @@ st.caption("Real time AQI Dashboard for selected cities")
 cities = st.multiselect(label = "city", options = ["Bangalore", "Mumbai", "Pune", "Jakarta", "Washington"])
 
 if st.button("🔃 Fetch Live Data"):
-    with st.spinner("Fetching.."):
-        data = get_multiple_cities(cities)
+    if cities:
+        with st.spinner("Fetching.."):
+            data = get_multiple_cities(cities)
+            for i in data:
+                st.header(i["city"])
+                st.write(i)
+    else:
+        st.toast("Select one or more city!")
 
-for i in data:
-    for j in cities:
-        if i["city"] == j:
-            st.header(j)
-            st.write(i)
 
