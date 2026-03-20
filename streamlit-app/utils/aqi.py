@@ -17,11 +17,13 @@ def get_aqi(city):
     url = f"https://api.waqi.info/feed/{city}?token={TOKEN}"
     r = requests.get(url)
     data = r.json() # parses json api response to dictionary
-    if data["status"] != "ok":
+    if data["status"] != "ok": # if response is corrupt, return None
         return None
     d = data["data"]
+    # return a dictionary of real-time aqi data from api response
     return {
         "name":d["attributions"][0]["name"],
+        "city":city,
         "time":d["time"]["s"],
         "aqi":d["aqi"],
         "pm25":d["iaqi"]["pm25"]["v"],
@@ -33,5 +35,11 @@ def get_aqi(city):
         "dew":d["iaqi"]["dew"]["v"]
     }
 
-print(get_aqi("Bangalore"))
+def get_multiple_cities(cities):
+    results = []
+    for city in cities:
+        data = get_aqi(city)
+        if data: # if response is not None, else ignore
+            results.append(data) 
+    return results # list of dictionaries of results from inputted cities in an iterable
 
