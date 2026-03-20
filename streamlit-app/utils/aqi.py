@@ -26,13 +26,13 @@ def get_aqi(city):
         "city":city,
         "time":d["time"]["s"],
         "aqi":d["aqi"],
-        "pm25":d["iaqi"]["pm25"]["v"],
-        "pm10":d["iaqi"]["pm10"]["v"],
-        "so2":d["iaqi"]["so2"]["v"],
-        "o3":d["iaqi"]["o3"]["v"],
-        "no2":d["iaqi"]["no2"]["v"],
-        "co":d["iaqi"]["co"]["v"],
-        "dew":d["iaqi"]["dew"]["v"]
+        "pm25": d["iaqi"].get("pm25", {}).get("v", "N/A"), # returns N/A if sensor doesn't exist for a specific pollutant
+        "pm10": d["iaqi"].get("pm10", {}).get("v", "N/A"),
+        "so2":  d["iaqi"].get("so2",  {}).get("v", "N/A"),
+        "o3":   d["iaqi"].get("o3",   {}).get("v", "N/A"),
+        "no2":  d["iaqi"].get("no2",  {}).get("v", "N/A"),
+        "co":   d["iaqi"].get("co",   {}).get("v", "N/A"),
+        "dew":  d["iaqi"].get("dew",  {}).get("v", "N/A"),
     }
 
 def get_multiple_cities(cities):

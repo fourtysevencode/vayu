@@ -5,3 +5,4 @@ plotly
 anthropic
 python-dotenv
 Pillow
+setuptools
