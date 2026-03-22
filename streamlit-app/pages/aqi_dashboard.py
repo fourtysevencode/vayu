@@ -84,6 +84,7 @@ if st.button("🔃 Fetch Live Data"):
                 pollutants = ["pm25","pm10","so2","no2","o3","co"]
                 values = [data[0].get(p) or 0 for p in pollutants] # pulls live pollutant data and replaces None with 0
                 who_limits = [25, 50, 20, 40, 60, 10] # FROM WHO
+                # radar chart
                 fig_radar = go.Figure()
                 fig_radar.add_trace(go.Scatterpolar( # Reality
                     r=values, theta = pollutants, fill="toself",name=cities[0],line_color="#d85a30"
