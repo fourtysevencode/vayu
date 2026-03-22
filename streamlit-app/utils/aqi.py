@@ -6,12 +6,12 @@ load_dotenv() # creates environment from the .env file (finds automatically) and
 TOKEN = os.getenv("WAQI_TOKEN") # retieves WAQI token
 
 def aqi_color(value): # AQI color values | source: https://vajiramandravi.com/current-affairs/national-air-quality-index/#:~:text=Good%20(0%20to%2050):,existing%20diseases%20face%20serious%20complications.
-    if value <= 50:   return "#00e400", "Good"
-    if value <= 100:  return "#ffff00", "Moderate"
-    if value <= 150:  return "#ff7e00", "Unhealthy for Sensitive Groups"
-    if value <= 200:  return "#ff0000", "Unhealthy"
-    if value <= 300:  return "#8f3f97", "Very Unhealthy"
-    return "#7e0023", "Hazardous"
+    if value <= 50:   return ["#00e400", "green"], "Good"
+    if value <= 100:  return ["#ffff00", "yellow"], "Moderate"
+    if value <= 150:  return ["#ff7e00", "orange"], "Unhealthy for Sensitive Groups"
+    if value <= 200:  return ["#ff0000", "red"], "Unhealthy"
+    if value <= 300:  return ["#8f3f97", "violet"], "Very Unhealthy"
+    return ["#1e1e1e", "grey"], "Hazardous"
 
 def get_aqi(city):
     url = f"https://api.waqi.info/feed/{city}?token={TOKEN}"
