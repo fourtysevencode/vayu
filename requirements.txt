@@ -4,7 +4,8 @@ pandas
 plotly
 anthropic
 python-dotenv
-Pillow
 setuptools
 fastapi
-
+pydantic
+uvicorn
+requests

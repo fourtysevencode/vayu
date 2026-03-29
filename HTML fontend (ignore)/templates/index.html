@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <title>Chatbot</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+        :root {
+            --bg: #090e14;
+            --surface: #101820;
+            --border: #1e2e3e;
+            --teal: #38d9c0;
+            --teal-dim: rgba(56, 217, 192, 0.12);
+            --text: #ddeef8;
+            --muted: #5a7a90;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(56, 217, 192, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        header {
+            display: block;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--teal);
+            text-align: center;
+            padding-bottom: 0.3rem;
+        }
+
+        header::after {
+            content: 'Environmental AI';
+            display: block;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+
+        #response {
+            min-height: 200px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding: 1.4rem 1.6rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            color: var(--text);
+            white-space: pre-wrap;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+            transition: border-color 0.3s;
+        }
+
+        #response:not(:empty) {
+            border-color: rgba(56, 217, 192, 0.25);
+        }
+
+        #response:empty::before {
+            content: 'Ask Vayu about AQI, air quality, or your carbon footprint...';
+            color: var(--muted);
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        #user_input {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #user_input::placeholder { color: var(--muted); }
+
+        #user_input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px var(--teal-dim);
+        }
+
+        #send_button {
+            background: var(--teal);
+            color: var(--bg);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.4rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+
+        #send_button:hover { opacity: 0.85; }
+        #send_button:active { transform: scale(0.96); }
+    </style>
+    <body>
+        <div class="container">
+            <header>Vayu</header>
+            <div class="input-row">
+                <input id="user_input" placeholder="Ask about air quality, AQI, carbon footprint...">
+                <button id="send_button" onclick="send_message()">Send</button>
+            </div>
+            <p id="response"></p>
+        </div>
+        <script>
+            async function send_message() {
+                const res = await fetch("/chat", {
+                    method:"POST",
+                    headers: {"Content-Type": "application/json"}, // specifies body is JSON
+                    body: JSON.stringify({
+                        "message":user_input.value
+                    })
+                })
+                const data = await res.json()
+                response.innerText = data.response ?? "Couldn't proccess input"
+            }
+        </script>
+    </body>
+</html>
