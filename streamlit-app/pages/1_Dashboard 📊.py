@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) # adding streamlit-app to sys.path to import utils
+import requests
 import streamlit as st
 from utils.aqi import get_multiple_cities, aqi_color, get_aqi
 import pandas as pd
@@ -8,26 +9,34 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+FASTAPI_URL = os.getenv("FASTAPI_URL")
+if not FASTAPI_URL:
+    st.error("FASTAPI_URL is not configured.")
+    st.stop()
+FASTAPI_URL = FASTAPI_URL.rstrip("/")
+
 st.set_page_config(page_title="Vayu AQI Dashboard", page_icon="🔰")
 st.title("🔰Vayu AQI Dashboard")
 st.caption("Real time AQI Dashboard for selected cities")
-major_cities = sorted(["Bangalore", "Mumbai", "Pune", "Jakarta", "Washington", "New York", "Chennai", "Hyderabad", "London", "Bejing", "Paris", "Lyon", "Delhi","Salem", "Ahmedabad", "Kolkata", "Jaipur", "Gurgaon"])
+major_cities = sorted(["Bangalore", "Mumbai", "Pune", "Jakarta", "Washington", "New York", "Chennai", "Hyderabad", "London", "Beijing", "Paris", "Lyon", "Delhi","Salem", "Ahmedabad", "Kolkata", "Jaipur", "Gurgaon"])
 
 cities = st.multiselect(label = "Select one or more cities", options = major_cities) # select multiple
 
 if st.button("🔃 Fetch Live Data"):
     if cities:
-        with st.spinner("Fetching.."):
+        with st.spinner("Vayu is thinking..."):
             data = get_multiple_cities(cities)
-
+            df = pd.DataFrame(data)
+            df = df.replace("N/A", None)
+            aqi_values = [row.get("aqi", 0) for row in data]
+            overview = requests.post(f"{FASTAPI_URL}/dashboard_overview", json={"cities": cities, "aqi": aqi_values}).json()["response"] # API POST request from local host server, converts dict of prompt to JSON with the parameter 'json' and sets content type header (applications/json)
         if not data:
             st.error("Check your API token")
             st.stop()
 
 
-        df = pd.DataFrame(data)
-        df = df.replace("N/A", None)
-
+ # list of city's corresponding AQI values, replaces None with 0
+        
         # Multi City View
         if len(cities)>1:
 
@@ -38,6 +47,7 @@ if st.button("🔃 Fetch Live Data"):
                 with cols[i]:
                     st.metric(row["city"], row["aqi"], label, delta_color = color[1])
                     #st.markdown(f"<p style='text-align: center; font-size: 12px;'>Source: {row["name"]}</p>", unsafe_allow_html=True)
+            st.info(overview)
             st.divider()
 
             # Bar Chart 
@@ -95,6 +105,9 @@ if st.button("🔃 Fetch Live Data"):
                 ))
                 fig_radar.update_layout(height=300, showlegend=True)
                 st.plotly_chart(fig_radar, use_container_width=True)
+
+            st.info(overview)
+            st.divider()
 
             # horizontal bar chart
             fig_hbar = go.Figure()

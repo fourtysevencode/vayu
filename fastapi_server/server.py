@@ -44,6 +44,10 @@ Your max tokens per reply is 1024. Do not ever exceed.
 class user_message(BaseModel):
     message: str
 
+class aqi_data(BaseModel):
+    cities: list[str]
+    aqi: list[float]
+
 @app.get("/")
 async def home(request: Request):
     return templates.TemplateResponse(request, "index.html")
@@ -56,6 +60,21 @@ def send_response(message: user_message):
             input = [
                 {"role":"system", "content":prompt},
                 {"role": "user", "content":message.message}
+            ]
+        )
+        return {"response":response.output_text}
+    
+    except Exception as e:
+        return {"response":f"Error: {e}"}
+
+@app.post("/dashboard_overview")
+def overview(data: aqi_data):
+    try:
+        response = client.responses.create(
+            model = "gpt-5-nano",
+            input = [
+                {"role":"system", "content":prompt},
+                {"role": "system", "content":f"In 1-2 sentences max, describe the AQI of {data.aqi} in {data.cities} using a simple real-life comparison anyone would get (e.g. 'like standing behind a bus'). No jargon."},
             ]
         )
         return {"response":response.output_text}

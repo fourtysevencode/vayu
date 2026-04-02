@@ -1,5 +1,12 @@
 import streamlit as st
 import requests
+import os
+
+FASTAPI_URL = os.getenv("FASTAPI_URL")
+if not FASTAPI_URL:
+    st.error("FASTAPI_URL is not configured.")
+    st.stop()
+FASTAPI_URL = FASTAPI_URL.rstrip("/")
 
 st.title("🔰Chat with Vayu - Your AI Climate Advisor!")
 st.set_page_config(page_title="Vayu Chat", page_icon="🔰")
@@ -15,7 +22,7 @@ if prompt := st.chat_input("Ask Vayu..."): # := walrus operator, assigns value &
     st.chat_message("user").write(prompt)  # render it right now before generating message
 
     with st.spinner("Vayu is thinking..."): # loading spinner
-        res = requests.post("http://localhost:8000/chat", json={"message": prompt}) # API POST request from local host server, converts dict of prompt to JSON with the parameter 'json' and sets content type header (applications/json)
+        res = requests.post(f"{FASTAPI_URL}/chat", json={"message": prompt}) # API POST request from local host server, converts dict of prompt to JSON with the parameter 'json' and sets content type header (applications/json)
         reply = res.json()["response"] # converts json reply to python dict with .json() and extracts the response string
 
     st.session_state.messages.append({"role": "assistant", "content": reply}) # save reply to memory
