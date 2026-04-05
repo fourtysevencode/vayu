@@ -42,7 +42,7 @@ waste = st.select_slider(
 if st.button("Submit"):
     st.divider()
     total = co2_calc(mode_of_transport, commute__distance, electricity_usage, lpg__cylinders, diet, waste)
-    st.metric("Your monthly footprint is", f"{total:.1f} kg  of CO₂") # :.1f -- f string format spedicier, keeps only one digit after decimal in the returned float type
+    st.metric("Your monthly footprint is", f"{total:.1f} kg  of CO₂ every month") # :.1f -- f string format spedicier, keeps only one digit after decimal in the returned float type
 
     with st.spinner("Creating an AI overview..."):
         overview = requests.post(f"{FASTAPI_URL}/co2_overview", json={"total_co2":total}).json()["response"]
