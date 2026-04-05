@@ -65,7 +65,7 @@ if st.button("Chat with Vayu"):
 st.subheader("🌱 Carbon Footprint Calculator")
 st.write("Estimate your personal carbon emissions based on your commute, diet, and energy usage.")
 if st.button("Calculate Footprint"):
-    st.toast("coming soon!")
+    st.switch_page("pages/3_Carbon Foorprint Calculator 💚.py")
 
 st.subheader("📷 Pollution Detector")
 st.write("Upload an image or use your camera to detect pollution sources using a YOLOv8 model.")

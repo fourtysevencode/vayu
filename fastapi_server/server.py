@@ -7,6 +7,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
+
 app = FastAPI()
 load_dotenv()
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
@@ -47,6 +48,8 @@ class user_message(BaseModel):
 class aqi_data(BaseModel):
     cities: list[str]
     aqi: list[float]
+class co2(BaseModel):
+    total_co2: float
 
 @app.get("/")
 async def home(request: Request):
@@ -75,6 +78,27 @@ def overview(data: aqi_data):
             input = [
                 {"role":"system", "content":prompt},
                 {"role": "system", "content":f"In 1-2 sentences max, describe the AQI of {data.aqi} in {data.cities} using a simple real-life comparison anyone would get (e.g. 'like standing behind a bus'). No jargon."},
+            ]
+        )
+        return {"response":response.output_text}
+    
+    except Exception as e:
+        return {"response":f"Error: {e}"}
+
+
+@app.post("/co2_overview")
+def co2_overview(total: co2):
+    try:
+        response = client.responses.create(
+            model = "gpt-5-nano",
+            input = [
+                {"role":"system", "content":prompt},
+                {"role":"system", "content":f"""
+In 2-3 sentences, describe a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, 
+relatable terms. Compare it to a celebrity or world leader's lifestyle (e.g. Taylor Swift's 
+private jet, Elon Musk's rockets, Jeff Bezos's yacht and other famous celebrities or world leaders like Donald Trump, Narendra Modi and others.). Be witty but keep it grounded. 
+No jargon, no bullet points, just a punchy paragraph. Avoid using more than 2 em dashes.
+"""} # sorry for the ugly looking code reader!
             ]
         )
         return {"response":response.output_text}
