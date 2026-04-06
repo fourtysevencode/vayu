@@ -105,3 +105,7 @@ No jargon, no bullet points, just a punchy paragraph. Avoid using more than 2 em
     
     except Exception as e:
         return {"response":f"Error: {e}"}
+
+@app.get("/health")
+def health():
+    return {"status":"alive"}
