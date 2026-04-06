@@ -2,10 +2,10 @@ streamlit
 requests
 pandas
 plotly
-anthropic
 python-dotenv
 setuptools
 fastapi
 pydantic
 uvicorn
 requests
+openai
