@@ -52,8 +52,8 @@ class co2(BaseModel):
     total_co2: float
 
 @app.get("/")
-async def home(request: Request):
-    return templates.TemplateResponse(request, "index.html")
+async def home():
+    return {"status":"seems to be working fine.."}
 
 @app.post("/chat")
 def send_response(message: user_message):
