@@ -21,6 +21,7 @@ st.caption("Real time AQI Dashboard for selected cities")
 major_cities = sorted(["Bangalore", "Mumbai", "Pune", "Jakarta", "Washington", "New York", "Chennai", "Hyderabad", "London", "Beijing", "Paris", "Lyon", "Delhi","Salem", "Ahmedabad", "Kolkata", "Jaipur", "Gurgaon"])
 
 cities = st.multiselect(label = "Select one or more cities", options = major_cities) # select multiple
+st.caption("Select one city for detailed stats!")
 
 if st.button("🔃 Fetch Live Data"):
     if cities:
