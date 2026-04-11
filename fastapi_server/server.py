@@ -45,8 +45,7 @@ Never make up AQI values or pollution statistics. If you don't have real data, s
 Your max tokens per reply is 1024. Do not ever exceed.
 """
 
-model_path = os.environ["CV_MODEL_PATH"]
-model = YOLO(model_path)
+model = YOLO("best.onnx")
 
 class user_message(BaseModel):
     message: str
