@@ -6,6 +6,10 @@ import numpy as np
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from ultralytics import YOLO
+from PIL import Image
+import io
+import base64
 
 
 app = FastAPI()
@@ -41,6 +45,8 @@ Never make up AQI values or pollution statistics. If you don't have real data, s
 Your max tokens per reply is 1024. Do not ever exceed.
 """
 
+model_path = os.environ["CV_MODEL_PATH"]
+model = YOLO(model_path)
 
 class user_message(BaseModel):
     message: str
@@ -50,6 +56,8 @@ class aqi_data(BaseModel):
     aqi: list[float]
 class co2(BaseModel):
     total_co2: float
+class ImagePayload(BaseModel):
+    image: str
 
 @app.get("/")
 async def home():
@@ -105,6 +113,22 @@ No jargon, no bullet points, just a punchy paragraph. Avoid using more than 2 em
     
     except Exception as e:
         return {"response":f"Error: {e}"}
+    
+@app.post("/cv_predict")
+def predict(image: ImagePayload):
+    img_bytes = base64.b64decode(image.image)
+    img = Image.open(io.BytesIO(img_bytes))
+    img_array = np.array(img)
+
+    result = model.predict(img_array)
+    annotated = result[0].plot()
+    
+    annotated_pil = Image.fromarray(annotated)
+    buffered = io.BytesIO()
+    annotated_pil.save(buffered, format="JPEG")
+    img_b64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    return {"annotated_image": img_b64}
 
 @app.get("/health")
 def health():

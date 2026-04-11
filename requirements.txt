@@ -9,3 +9,6 @@ pydantic
 uvicorn
 requests
 openai
+ultralytics
+onnxruntime
+Pillow
