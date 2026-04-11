@@ -70,6 +70,6 @@ if st.button("Calculate Footprint"):
 st.subheader("📷 Pollution Detector")
 st.write("Upload an image or use your camera to detect pollution sources using a YOLOv8 model.")
 if st.button("Open Detector"):
-    st.toast("coming soon!")
+    st.switch_page("pages/4_Pollution_Source_Detector.py")
 
  
