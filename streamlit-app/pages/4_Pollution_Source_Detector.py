@@ -30,7 +30,7 @@ with col2:
     if st.button("Detect", key=2, use_container_width=True):
         image = path
 with col3:
-    path = os.path.join("streamlit-app", "pages", "example_images", "example2.jpg")
+    path = os.path.join("streamlit-app", "pages", "example_images", "example3.jpg")
     st.image(path, caption = "Thogur Cross, Electronic City, Bengaluru")
     if st.button("Detect", key=3, use_container_width=True):
         image = path
