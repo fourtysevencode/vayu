@@ -56,7 +56,7 @@ if image is not None: # if an image is uploaded
         st.image(annotated_image, caption="annotated image")
 
 st.subheader("How it works")
-st.write("""This tool uses YOLO-based object detection for urban pollution sources, trained on a real-world dataset of Indian street imagery spanning multiple locations across Bengaluru. Images were preprocessed and augmented to improve robustness across varying lighting conditions, camera angles, and urban environments.
+st.write("""This tool uses CV-based object detection for urban pollution sources, trained on a real-world dataset containing 53000+ images of Indian street imagery spanning multiple locations across India and abroad. Images were preprocessed and augmented to improve robustness across varying lighting conditions, camera angles, and urban environments.
 
 The detection threshold is tuned for high recall, prioritizing catching every potential pollution source over avoiding false positives, which is critical for real-world environmental monitoring.
 
