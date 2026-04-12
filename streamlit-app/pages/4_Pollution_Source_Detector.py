@@ -54,3 +54,13 @@ if image is not None: # if an image is uploaded
         annotated_image = base64.b64decode(annotated_image)
         annotated_image = Image.open(io.BytesIO(annotated_image))
         st.image(annotated_image, caption="annotated image")
+
+st.subheader("How it works")
+st.write("""This tool uses YOLO-based object detection for urban pollution sources, trained on a real-world dataset of Indian street imagery spanning multiple locations across Bengaluru. Images were preprocessed and augmented to improve robustness across varying lighting conditions, camera angles, and urban environments.
+
+The detection threshold is tuned for high recall, prioritizing catching every potential pollution source over avoiding false positives, which is critical for real-world environmental monitoring.
+
+Detected classes: Vehicles, Garbage, Smoke, Fire""")
+
+st.subheader("Use cases")
+st.write("Built for applications like traffic emission monitoring, municipal solid waste identification, and early fire or smoke detection. Data collected from this tool can help civic bodies prioritize cleanup efforts and identify high-pollution zones in real time.")
