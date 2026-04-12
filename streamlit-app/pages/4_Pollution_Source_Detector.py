@@ -16,25 +16,24 @@ st.divider()
 
 image = st.file_uploader("Upload an image!", type=["jpg", "jpeg", "png"])
 
-if image is None:
-    st.write("or try with these:")
-    col1,col2,col3 = st.columns(3)
+st.write("or try with these:")
+col1,col2,col3 = st.columns(3)
 
-    with col1:
-        path = os.path.join("streamlit-app", "pages", "example_images", "example1.jpg")
-        st.image(path, caption = "Hosur Road (Near Singasandra Metro Station), Electronic City, Bengaluru")
-        if st.button("Detect", key=1, use_container_width=True):
-            image = path
-    with col2:
-        path = os.path.join("streamlit-app", "pages", "example_images", "example2.jpg")
-        st.image(path, caption = "Neeladri Road (Near Neo Hospital), Electronic City, Bengaluru")
-        if st.button("Detect", key=2, use_container_width=True):
-            image = path
-    with col3:
-        path = os.path.join("streamlit-app", "pages", "example_images", "example3.jpg")
-        st.image(path, caption = "Thogur Cross, Electronic City, Bengaluru")
-        if st.button("Detect", key=3, use_container_width=True):
-            image = path
+with col1:
+    path = os.path.join("streamlit-app", "pages", "example_images", "example1.jpg")
+    st.image(path, caption = "Hosur Road (Near Singasandra Metro Station), Electronic City, Bengaluru")
+    if st.button("Detect", key=1, use_container_width=True):
+        image = path
+with col2:
+    path = os.path.join("streamlit-app", "pages", "example_images", "example2.jpg")
+    st.image(path, caption = "Neeladri Road (Near Neo Hospital), Electronic City, Bengaluru")
+    if st.button("Detect", key=2, use_container_width=True):
+        image = path
+with col3:
+    path = os.path.join("streamlit-app", "pages", "example_images", "example3.jpg")
+    st.image(path, caption = "Thogur Cross, Electronic City, Bengaluru")
+    if st.button("Detect", key=3, use_container_width=True):
+        image = path
 
 if image is not None: # if an image is uploaded
     image = Image.open(image) # bytes to image
