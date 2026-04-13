@@ -7,6 +7,10 @@ from utils.ndvi_map import map_with_aqi
 from utils.aqi import get_aqi
 import json
 
+st.title("🔰 Vayu NDVI-AQI Map")
+st.subheader("Green Cover vs Air Quality")
+st.caption("Exploring how vegetation density correlates with real-time AQI across major Indian cities.")
+
 if "map" not in st.session_state:
     st.session_state.map = None
 
