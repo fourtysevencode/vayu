@@ -12,3 +12,9 @@ openai
 ultralytics
 onnxruntime
 Pillow
+streamlit-folium
+folium
+open-cv
+openai
+numpy
+matplotlib
