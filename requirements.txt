@@ -7,14 +7,12 @@ setuptools
 fastapi
 pydantic
 uvicorn
-requests
 openai
 ultralytics
 onnxruntime
 Pillow
 streamlit-folium
 folium
-open-cv
-openai
+opencv-python
 numpy
 matplotlib
