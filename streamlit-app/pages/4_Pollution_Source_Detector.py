@@ -14,6 +14,24 @@ st.subheader("Detects pollution sources on land (Smoke, Vehicles, Fire or Garbag
 
 st.divider()
 
+# keeps columns parallel on mobile
+st.markdown("""
+    <style>
+    [data-testid="stHorizontalBlock"] {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+        min-width: 120px;
+        flex: 1 1 0 !important;
+    }
+    [data-testid="stHorizontalBlock"] img {
+        width: 100%;
+        height: auto;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 image = st.file_uploader("Upload an image!", type=["jpg", "jpeg", "png"])
 
 st.write("or try with these:")
@@ -26,7 +44,7 @@ with col1:
         image = path
 with col2:
     path = os.path.join("streamlit-app", "pages", "example_images", "example2.jpg")
-    st.image(path, caption = "Neeladri Road (Near Neo Hospital), Electronic City, Bengaluru")
+    st.image(path, caption = "Municipal Waste Burning Gone Wrong (1/04/26), Electronic City, Bengaluru")
     if st.button("Detect", key=2, use_container_width=True):
         image = path
 with col3:
@@ -35,6 +53,7 @@ with col3:
     if st.button("Detect", key=3, use_container_width=True):
         image = path
 
+st.divider()
 if image is not None: # if an image is uploaded
     image = Image.open(image) # bytes to image
     buffered = io.BytesIO() # in memory
@@ -43,7 +62,7 @@ if image is not None: # if an image is uploaded
 
     with st.spinner("Vayu is thinking..."):
         res = requests.post(f"{FASTAPI_URL}/cv_predict", json={"image":img_b64}).json()
-        
+    
     col1, col2 = st.columns(2)
 
     with col1:
