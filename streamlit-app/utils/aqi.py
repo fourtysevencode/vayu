@@ -15,10 +15,14 @@ def aqi_color(value): # AQI color values | source: https://vajiramandravi.com/cu
         return ["#1e1e1e", "grey"], "Hazardous"
     else: return["#000000", "blue"], "Invalid AQI"
 
-def get_aqi(city):
+def get_from_waqi(city):
     url = f"https://api.waqi.info/feed/{city}?token={TOKEN}"
     r = requests.get(url)
-    data = r.json() # parses json api response to dictionary
+    data = r.json()
+    return data
+
+def get_aqi(city):
+    data = get_from_waqi(city)
     if data["status"] != "ok": # if response is corrupt, return None
         return None
     d = data["data"]
@@ -46,3 +50,10 @@ def get_multiple_cities(cities):
             results.append(data) 
     return results # list of dictionaries of results from inputted cities in an iterable
 
+def getall_stations(city):
+    url = f"https://api.waqi.info/search/?token={TOKEN}&keyword={city}"
+    r = requests.get(url).json()
+    d = r["data"]
+    if r["status"] == "ok":
+        stations = [{"name":i["station"]["name"], "geo":i["station"]["geo"], "aqi":i["aqi"]} for i in d if i["aqi"] != "-"]
+        return stations
