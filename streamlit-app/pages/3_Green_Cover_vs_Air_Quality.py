@@ -55,6 +55,6 @@ if st.button("Fetch", use_container_width=True):
 
 if st.session_state.map is not None:
     st.space("small")
-    st_folium(st.session_state.map, width=800, height=500)
+    st_folium(st.session_state.map, width=800, height=500, returned_objects=[])
 
 
