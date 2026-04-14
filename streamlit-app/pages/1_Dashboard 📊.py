@@ -15,7 +15,7 @@ if not FASTAPI_URL:
     st.stop()
 FASTAPI_URL = FASTAPI_URL.rstrip("/")
 
-st.set_page_config(page_title="Vayu AQI Dashboard", page_icon="🔰")
+st.set_page_config(page_title="Vayu - AQI Dashboard", page_icon="🔰")
 st.title("🔰Vayu AQI Dashboard")
 st.caption("Real time AQI Dashboard for selected cities")
 major_cities = sorted(["Bangalore", "Mumbai", "Pune", "Jakarta", "Washington", "New York", "Chennai", "Hyderabad", "London", "Beijing", "Paris", "Lyon", "Delhi","Salem", "Ahmedabad", "Kolkata", "Jaipur", "Gurgaon"])

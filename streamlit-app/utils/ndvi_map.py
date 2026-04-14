@@ -19,7 +19,7 @@ def map_with_aqi(city, lat, lon):
     # NDVI
     folium.Circle(
         location=[lat,lon],
-        radius = NDVI * 40000,
+        radius = NDVI * 50000,
         color="#006400", # border color
         fill=True,
         fill_opacity=0.2,
@@ -32,7 +32,7 @@ def map_with_aqi(city, lat, lon):
         aqi_colorname, remark = aqi_color(aqi)
         aqi_colorname = aqi_colorname[0]
         lat_aqi_station,lon_aqi_station = station["geo"]
-        if [lat_aqi_station,lon_aqi_station] == [None, None]:
+        if lat_aqi_station is None or lon_aqi_station is None:
             lat_aqi_station,lon_aqi_station  = lat,lon
 
         folium.Circle(
@@ -41,7 +41,7 @@ def map_with_aqi(city, lat, lon):
             fill=True,
             fill_opacity=0.4,
             radius=1000,
-            tooltip=f"{station["name"]}: AQI = {aqi} ({remark})"
+            tooltip=f"{station['name']}: AQI = {aqi} ({remark})"
         ).add_to(m)
 
     return m

@@ -2,14 +2,16 @@ import streamlit as st
 import requests
 import os
 
+st.set_page_config(page_title="Vayu - Chat", page_icon="🔰")
+
 FASTAPI_URL = os.getenv("FASTAPI_URL")
 if not FASTAPI_URL:
     st.error("FASTAPI_URL is not configured.")
     st.stop()
 FASTAPI_URL = FASTAPI_URL.rstrip("/")
 
-st.title("🔰Chat with Vayu - Your AI Climate Advisor!")
-st.set_page_config(page_title="Vayu Chat", page_icon="🔰")
+st.title("🔰Ask Vayu")
+st.subheader("Your AI Climate Advisor!")
 
 if "messages" not in st.session_state: # so it doesnt forget the messages every rerun, st.session_state is a dict with all persistent variables over the session. (Runs on session start)
     st.session_state.messages = [] # list of messages, st.session_state.messages creates a key 'messages' and its value is initially an empty list where the chat history will be appended.
@@ -17,7 +19,7 @@ if "messages" not in st.session_state: # so it doesnt forget the messages every 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"]) # user / assistant chat bubble creation on every rerun
 
-if prompt := st.chat_input("Ask Vayu..."): # := walrus operator, assigns value & checks if None - Only runs if theres input
+if prompt := st.chat_input("write your message here"): # := walrus operator, assigns value & checks if None - Only runs if theres input
     st.session_state.messages.append({"role": "user", "content": prompt}) # saves to memory
     st.chat_message("user").write(prompt)  # render it right now before generating message
 

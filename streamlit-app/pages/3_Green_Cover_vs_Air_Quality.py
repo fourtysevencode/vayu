@@ -7,9 +7,10 @@ from utils.ndvi_map import map_with_aqi
 from utils.aqi import get_aqi
 import json
 
-st.title("🔰 Vayu NDVI-AQI Map")
-st.subheader("Green Cover vs Air Quality")
-st.caption("Exploring how vegetation density correlates with real-time AQI across major Indian cities.")
+st.set_page_config(page_title="Vayu - Map", page_icon="🔰")
+
+st.title("🔰 Vayu Green Cover-AQI Map")
+st.subheader("Exploring how vegetation density correlates with real-time AQI across major Indian cities.")
 
 if "map" not in st.session_state:
     st.session_state.map = None
@@ -32,16 +33,28 @@ CITY_COORDS = {
     "Patna": [25.5941, 85.1376],
 }
 
-selected_city = st.selectbox(options=list(CITY_COORDS.keys()), label="Choose city")
+st.info("The Normalized Difference Vegetation Index (NDVI) is a remote sensing metric that quantifies green vegetation by measuring the difference between near-infrared (which healthy vegetation strongly reflects) and red light (which it absorbs). Ranging from -1 to +1, it indicates photosynthetic activity and plant vigor")
+
+st.divider()
+
+st.subheader("NDVI Value Inference")
+st.table({
+    "NDVI Range": ["0.6 – 0.9", "0.2 – 0.5", "0.0 – 0.2", "< 0"],
+    "Interpretation": ["Dense forest or lush farmland", "Sparse vegetation, grassland", "Bare soil or urban areas", "Water bodies"]
+})
+
+st.divider()
+
+st.subheader("NDVI - AQI Map")
+selected_city = st.selectbox(options=list(CITY_COORDS.keys()), label="Select a city!")
 if st.button("Fetch", use_container_width=True):
-    st.divider()
     lat, lon = CITY_COORDS[selected_city]
     with st.spinner("Vayu is thinking..."):
         m = map_with_aqi(selected_city, lat, lon)
         st.session_state.map = m
 
 if st.session_state.map is not None:
+    st.space("small")
     st_folium(st.session_state.map, width=800, height=500)
 
-st.divider()
 

@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 import base64
 import io
 
+st.set_page_config(page_title="Vayu - Pollution Detection", page_icon="🔰")
+
 load_dotenv()
 FASTAPI_URL = os.environ["FASTAPI_URL"]
 st.title("🔰Pollution Source Detector")
