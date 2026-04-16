@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vayu - Home", page_icon="🔰")
 
 st.write("---")
 st.header("The Problem")
-st.markdown("""#### India has some of the worst air quality globally most people don't understand AQI beyond a number. Pollution sources are visible but not climate change because of it. Personal impact is ignored or misunderstood. *Data exists, but insight doesn't*""")
+st.markdown("""#### Indian cities have some of the worst air quality globally. Most people don't understand AQI beyond a number. Pollution sources are visible but not climate change because of it. Personal impact is ignored or misunderstood. *Data exists, but insight doesn't*""")
 st.space("small")
 st.info("Vayu connects air quality, personal impact, and real-world visibility into one system to aid awareness.")
 
