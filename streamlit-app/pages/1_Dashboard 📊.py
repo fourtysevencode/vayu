@@ -124,6 +124,9 @@ if st.button("🔃 Fetch Live Data"):
                 height = 300 # keep it uniform
             )
             st.plotly_chart(fig_hbar, use_container_width=True) # stretvh to full container width
+
+            info = {"Pollutant":["PM 2.5","PM 10", "CO", "O3", "NO2","SO2"], "Definition":["Fine particulate matter with a diameter of 2.5 micrometers or less (smoke)", "Inhalable particulate matter with a diameter of 10 micrometers or less (dust)", "Carbon Monoxide in the air", "Ground level Ozone (Smog)", "Nitrogen Dioxide in the air (from burning fossil fuels in vehicles and power plants)", "Sulfur Dioxide in the air (from industrial processes)"]}
+            st.table(info)
     else:
         st.toast("Select one or more city!")
 
