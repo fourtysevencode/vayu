@@ -27,7 +27,7 @@ Real-time air quality data for 18+ Indian and global cities, fetched from the [W
 - AI-generated overview card summarising air quality in plain language
 
 ### Pollution Source Detector
-A YOLOv8-based computer vision model that identifies pollution sources — vehicles, garbage, smoke, and fire — from any uploaded image. Trained on 53,000+ real-world images of Indian street scenes. See the [How the Pollution Detector Works](#how-the-pollution-detector-works) section for the full architecture.
+A YOLOv8-based computer vision model that identifies pollution sources vehicles, garbage, smoke, and fire from any uploaded image. Trained on 53,000+ real-world images of Indian street scenes. See the [How the Pollution Detector Works](#how-the-pollution-detector-works) section for the full architecture.
 
 ### Green Cover vs Air Quality Map
 An interactive folium map overlaying live WAQI station AQI readings with NDVI (Normalized Difference Vegetation Index) data for major Indian cities. Visualises the relationship between tree cover density and local air quality in real time.
@@ -36,7 +36,7 @@ An interactive folium map overlaying live WAQI station AQI readings with NDVI (N
 Estimates monthly personal CO2 emissions based on commute mode and distance, electricity usage, LPG consumption, diet, and waste output. Uses India-specific emission factors. Results are summarised by an AI overview card comparing your footprint to celebrity lifestyles for scale.
 
 ### Vayu Chatbot
-A conversational assistant powered by GPT — contextualised specifically for Indian air quality, AQI interpretation, pollutant health effects, and carbon footprint advice. Refuses off-topic queries and stays grounded in real data.
+A conversational assistant powered by GPT contextualised specifically for Indian air quality, AQI interpretation, pollutant health effects, and carbon footprint advice. Refuses off-topic queries and stays grounded in real data.
 
 ---
 
@@ -68,13 +68,13 @@ Vayu is split into two independently deployed services.
 └──────────────────────────────────────┘
 ```
 
-### Frontend — Streamlit on Render
+### Frontend | Streamlit on Render
 
 The Streamlit app is deployed on Render's free tier. It handles all UI, user input, and data visualisation. API calls to the FastAPI backend are made using Python's `requests` library with JSON payloads. The `FASTAPI_URL` environment variable points the frontend to the backend URL on Hugging Face Spaces.
 
 A cron job pings the `/health` endpoint every 14 minutes to prevent Render's free tier from spinning down the container.
 
-### Backend — FastAPI on Hugging Face Spaces
+### Backend | FastAPI on Hugging Face Spaces
 
 The FastAPI server runs in a Docker container on Hugging Face Spaces (port 7860). It handles all heavy computation: YOLOv8 inference, OpenAI API calls, and image processing. Keeping inference server-side avoids shipping the ~18MB model weights to the frontend.
 
@@ -173,7 +173,7 @@ Vayu uses a YOLOv8n (nano) model exported to ONNX format for fast, dependency-li
 - Augmentation: HSV jitter, mosaic, horizontal flip, random erasing, randaugment
 - Training platform: Kaggle (dual T4 GPUs)
 
-The detection threshold is tuned for high recall — prioritising catching every potential pollution source over minimising false positives, which is the correct tradeoff for real-world environmental monitoring.
+The detection threshold is tuned for high recall prioritising catching every potential pollution source over minimising false positives, which is the correct tradeoff for real-world environmental monitoring.
 
 ### Model Versions
 
