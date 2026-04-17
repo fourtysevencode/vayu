@@ -1,4 +1,4 @@
-# Vayu — Decoding the Planet, One Insight at a Time
+# Vayu - Decoding the Planet, One Insight at a Time
 
 > An AI-powered environmental monitoring platform for Indian cities. Connects real-time air quality data, personal carbon impact, green cover analysis, and computer vision-based pollution detection into one unified system.
 
