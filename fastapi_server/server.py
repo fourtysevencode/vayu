@@ -98,15 +98,11 @@ def co2_overview(total: co2):
     try:
         response = client.responses.create(
             model = "gpt-5-nano",
+            max_output_tokens=100,
             input = [
                 {"role":"system", "content":prompt},
-                {"role":"system", "content":f"""
-In 2-3 sentences, describe a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, 
-relatable terms. Compare it to a celebrity or world leader's lifestyle (e.g. Taylor Swift's 
-private jet, Elon Musk's rockets, Jeff Bezos's yacht and other famous celebrities or world leaders like Donald Trump, Narendra Modi and others.). Be witty but keep it grounded. 
-No jargon, no bullet points, just a punchy paragraph. Avoid using more than 2 em dashes.
-"""} # sorry for the ugly looking code reader!
-            ]
+                {"role":"user", "content":f"""In 2–3 sentences, explain a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, relatable terms. Compare it to the average footprint of a person in India and briefly indicate whether it is lower, typical, or higher (you may estimate if needed). Add one concrete equivalence (e.g., number of trees needed to offset it or everyday activity comparisons) and include one practical suggestion to reduce it. Keep it clear, grounded, and conversational with no jargon or bullet points."""} 
+            ] # sorry for the ugly looking code reader!
         )
         return {"response":response.output_text}
     
