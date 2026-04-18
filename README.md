@@ -54,7 +54,7 @@ Vayu is split into two independently deployed services.
 │  Sends POST/GET requests with JSON   │
 │  payloads to FastAPI backend         │
 └────────────────┬─────────────────────┘
-                 │  HTTPS REST API
+                 │  HTTPS FAST API
                  │  (JSON over HTTP)
 ┌────────────────▼─────────────────────┐
 │         FastAPI Backend              │
