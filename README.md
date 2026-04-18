@@ -205,6 +205,7 @@ vayu/
 │       ├── aqi.py             # WAQI API wrapper + AQI color logic
 │       ├── co2_calc.py        # Carbon emission factors + calculator
 │       ├── ndvi_map.py        # Folium map builder
+│       ├── ndvi_extraction_script.py   # NDVI city specific value extraction via Google Earth Engine
 │       └── data/
 │           └── city_ndvi.json # Pre-fetched NDVI values for major cities
 │
