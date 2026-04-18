@@ -114,8 +114,10 @@ def predict(image: ImagePayload):
     img = Image.open(io.BytesIO(img_bytes))
     img_array = np.array(img)
 
-    result = model.predict(img_array)
-    annotated = result[0].plot()
+    result = model.predict(img_array, conf=0.1, iou=0.45, show_conf=False) # iou = intersection over union, if boxes overlap by over 45% -> kills weaker one
+    print(f"boxes: {result[0].boxes}")
+    print(f"conf scores: {result[0].boxes.conf}")
+    annotated = result[0].plot(conf=False)
     
     annotated_pil = Image.fromarray(annotated)
     buffered = io.BytesIO()
