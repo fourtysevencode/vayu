@@ -98,7 +98,6 @@ def co2_overview(total: co2):
     try:
         response = client.responses.create(
             model = "gpt-5-nano",
-            max_output_tokens=100,
             input = [
                 {"role":"system", "content":prompt},
                 {"role":"user", "content":f"""In 2–3 sentences, explain a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, relatable terms. Compare it to the average footprint of a person in India and briefly indicate whether it is lower, typical, or higher (you may estimate if needed). Add one concrete equivalence (e.g., number of trees needed to offset it or everyday activity comparisons) and include one practical suggestion to reduce it. Keep it clear, grounded, and conversational with no jargon or bullet points."""} 
