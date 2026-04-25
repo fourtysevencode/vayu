@@ -76,7 +76,7 @@ A cron job pings the `/health` endpoint every 14 minutes to prevent Render's fre
 
 ### Backend | FastAPI on Hugging Face Spaces
 
-The FastAPI server runs in a Docker container on Hugging Face Spaces (port 7860). It handles all heavy computation: YOLOv8 inference, OpenAI API calls, and image processing. Keeping inference server-side avoids shipping the ~18MB model weights to the frontend.
+The FastAPI server runs in a Docker container on Hugging Face Spaces (port 7860). It handles all heavy computation: YOLOv8 inference, Gemini API calls, and image processing. Keeping inference server-side avoids shipping the ~18MB model weights to the frontend.
 
 The backend exposes the following endpoints:
 
@@ -84,7 +84,7 @@ The backend exposes the following endpoints:
 |---|---|---|
 | `/` | GET | Status check |
 | `/health` | GET | Keep-alive ping |
-| `/chat` | POST | GPT chatbot response |
+| `/chat` | POST | Gemini chatbot response |
 | `/dashboard_overview` | POST | AI AQI summary card |
 | `/co2_overview` | POST | AI carbon footprint card |
 | `/cv_predict` | POST | YOLOv8 pollution detection |
@@ -241,7 +241,7 @@ vayu/
 
 | Variable | Description |
 |---|---|
-| `OPENAI_API_KEY` | OpenAI API key for GPT responses |
+| `GEMINI_API_KEY` | Google AI Studio API key for Gemini responses |
 
 ---
 
@@ -277,7 +277,7 @@ streamlit run Landing.py
 | Frontend | Streamlit, Plotly, Folium, streamlit-folium |
 | Backend | FastAPI, Uvicorn, Pydantic |
 | CV Model | YOLOv8n (Ultralytics), ONNX Runtime |
-| AI Responses | OpenAI GPT API |
+| AI Responses | Google Gemini 2.5 Flash API |
 | AQI Data | WAQI API |
 | Deployment (frontend) | Render |
 | Deployment (backend) | Hugging Face Spaces (Docker) |

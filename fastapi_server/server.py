@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from fastapi .responses import HTMLResponse
 import numpy as np
-from openai import OpenAI
+import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 from ultralytics import YOLO
@@ -14,11 +14,8 @@ import base64
 
 app = FastAPI()
 load_dotenv()
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
 templates = Jinja2Templates(directory="templates")
-client = OpenAI(
-    api_key = OPENAI_API_KEY
-)
 
 
 prompt = """
@@ -45,6 +42,12 @@ Never make up AQI values or pollution statistics. If you don't have real data, s
 Your max tokens per reply is 1024. Do not ever exceed.
 """
 
+genai.configure(api_key=GEMINI_API_KEY)
+client = genai.GenerativeModel(
+    model_name="gemini-2.5-flash",
+    system_instruction=prompt
+)
+
 model = YOLO("best.onnx")
 
 class user_message(BaseModel):
@@ -65,14 +68,11 @@ async def home():
 @app.post("/chat")
 def send_response(message: user_message):
     try:
-        response = client.responses.create(
-            model = "gpt-5-nano",
-            input = [
-                {"role":"system", "content":prompt},
-                {"role": "user", "content":message.message}
-            ]
+        response = client.generate_content(
+            message.message,
+            generation_config={"max_output_tokens": 1024}
         )
-        return {"response":response.output_text}
+        return {"response":response.text}
     
     except Exception as e:
         return {"response":f"Error: {e}"}
@@ -80,14 +80,11 @@ def send_response(message: user_message):
 @app.post("/dashboard_overview")
 def overview(data: aqi_data):
     try:
-        response = client.responses.create(
-            model = "gpt-5-nano",
-            input = [
-                {"role":"system", "content":prompt},
-                {"role": "system", "content":f"In 1-2 sentences max, describe the AQI of {data.aqi} in {data.cities} using a simple real-life comparison anyone would get (e.g. 'like standing behind a bus'). No jargon."},
-            ]
+        response = client.generate_content(
+            f"In 1-2 sentences max, describe the AQI of {data.aqi} in {data.cities} using a simple real-life comparison anyone would get (e.g. 'like standing behind a bus'). No jargon.",
+            generation_config={"max_output_tokens": 1024}
         )
-        return {"response":response.output_text}
+        return {"response":response.text}
     
     except Exception as e:
         return {"response":f"Error: {e}"}
@@ -96,14 +93,11 @@ def overview(data: aqi_data):
 @app.post("/co2_overview")
 def co2_overview(total: co2):
     try:
-        response = client.responses.create(
-            model = "gpt-5-nano",
-            input = [
-                {"role":"system", "content":prompt},
-                {"role":"user", "content":f"""In 2–3 sentences, explain a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, relatable terms. Compare it to the average footprint of a person in India and briefly indicate whether it is lower, typical, or higher (you may estimate if needed). Add one concrete equivalence (e.g., number of trees needed to offset it or everyday activity comparisons) and include one practical suggestion to reduce it. Keep it clear, grounded, and conversational with no jargon or bullet points."""} 
-            ] # sorry for the ugly looking code reader!
-        )
-        return {"response":response.output_text}
+        response = client.generate_content(
+            f"""In 2–3 sentences, explain a monthly carbon footprint of {total.total_co2} kg CO₂e in simple, relatable terms. Compare it to the average footprint of a person in India and briefly indicate whether it is lower, typical, or higher (you may estimate if needed). Add one concrete equivalence (e.g., number of trees needed to offset it or everyday activity comparisons) and include one practical suggestion to reduce it. Keep it clear, grounded, and conversational with no jargon or bullet points.""",
+            generation_config={"max_output_tokens": 1024}
+        ) # sorry for the ugly looking code reader!
+        return {"response":response.text}
     
     except Exception as e:
         return {"response":f"Error: {e}"}

@@ -7,7 +7,7 @@ setuptools
 fastapi
 pydantic
 uvicorn
-openai
+google-generativeai
 ultralytics
 onnxruntime
 Pillow
